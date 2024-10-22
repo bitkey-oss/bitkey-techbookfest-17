@@ -1,0 +1,15 @@
+PREDEF:
+  - preface.re
+
+CHAPS:
+  - free_deployment_fun.re
+  - vite_dev_prod_differences_learnings.re
+  - event_storming_bdd_mob_programming_success.re
+  - desire_for_dialogue.re
+  - guide_to_planning_a_dev_camp.re
+
+APPENDIX:
+
+POSTDEF:
+  - postface.re
+  - contributors.re

@@ -1,0 +1,6 @@
+#PDF,EPUBファイルは除外
+*.pdf
+*.epub
+
+#DS_Storeファイルは除外
+.DS_Store
