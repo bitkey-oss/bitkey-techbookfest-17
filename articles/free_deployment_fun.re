@@ -27,9 +27,9 @@ Koyeb はコンテナをそのままデプロイすることができるので�
 
 === Cloudflare
 
-Cloudflare は CDN (Content Delivery Network ) やセキュリティ対策などを提供するサービスです。
-エッジコンピューティングを活用した開発者向けのプラットフォームも提供しています。なかでも Cloudflare Workers という FaaS ( Function as a Service ) にて無料で Go のサーバーを構築することが可能です。
-Cloudflare Workers は JavaScript, TypeScript もしくは Wasm ( Rust ) がメインの開発言語になります。
+Cloudflare は CDN (Content Delivery Network) やセキュリティ対策などを提供するサービスです。
+エッジコンピューティングを活用した開発者向けのプラットフォームも提供しています。なかでも Cloudflare Workers という FaaS (Function as a Service) にて無料で Go のサーバーを構築することが可能です。
+Cloudflare Workers は JavaScript, TypeScript もしくは Wasm (Rust) がメインの開発言語になります。
 しかし、syumai さんが開発している workers というライブラリを使えば Go での開発が可能になります。
 Cloudflare はほかにも制限はありますが無料で利用できるリソースが存在します。
 Key Value ストアである Cloudflare Workers KV
@@ -41,7 +41,7 @@ Cloudflare Workers とこれらリソースを組み合わせることでより�
 
 === Vercel
 
-Vercel は Paas ( Platform as a Service ) を提供するサービスです。
+Vercel は Paas (Platform as a Service) を提供するサービスです。
 Next.js という React のフレームワークを開発しているということから Webサイトホスティングをするイメージが強いですが、Vercel Functions というサービスを使えばサーバーサイドの構築も可能です。
 また、Cloudflare のようにほかにも無料で利用できるリソースが存在しています。
 RDB の利用が可能な Vercel Postgres
@@ -125,7 +125,7 @@ vercel --prod
 
 === パスルーティング
 
-Vercel Functions へデプロイしたサーバーへ対するアクセスは　vercel.json の routes を設定することで可能になります。
+Vercel Functions へデプロイしたサーバーへ対するアクセスは vercel.json の routes を設定することで可能になります。
 
 //list[vercel.json2][][json]{
 {
@@ -308,7 +308,7 @@ import (
 )
 
 const (
-	BLOB_API_VERSION = "7" // ref: https://github.com/vercel/storage/blob/main/packages/blob/src/api.ts#L82
+	BLOB_API_VERSION = "7" 
 	DEFAULT_BASE_URL = "https://blob.vercel-storage.com"
 )
 
@@ -370,7 +370,11 @@ func Put(
 
 	base.Path = pathname
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPut, base.String(), body)
+	req, err := http.NewRequestWithContext(
+		ctx, 
+		http.MethodPut, 
+		base.String(), 
+		body)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
@@ -381,7 +385,7 @@ func Put(
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("failed to send request: %w", err)
+		return nil, fmt.Errorf("send request: %w", err)
 	}
 
 	defer func() {
@@ -395,7 +399,7 @@ func Put(
 	var putRes PutResponse
 
 	if err := json.NewDecoder(res.Body).Decode(&putRes); err != nil {
-		return nil, fmt.Errorf("failed to decode response body: %w", err)
+		return nil, fmt.Errorf("decode response body: %w", err)
 	}
 
 	return &putRes, nil
@@ -423,9 +427,13 @@ func Head(
 		return nil, fmt.Errorf("BLOB_READ_WRITE_TOKEN is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, DEFAULT_BASE_URL+"?"+url, nil)
+	req, err := http.NewRequestWithContext(
+		ctx, 
+		http.MethodGet, 
+		DEFAULT_BASE_URL+"?"+url, 
+		nil)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create request: %w", err)
+		return nil, fmt.Errorf("create request: %w", err)
 	}
 
 	req.Header.Set("x-api-version", BLOB_API_VERSION)
@@ -434,7 +442,7 @@ func Head(
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("failed to send request: %w", err)
+		return nil, fmt.Errorf("send request: %w", err)
 	}
 
 	defer func() {
@@ -448,7 +456,7 @@ func Head(
 	var headRes HeadResponse
 
 	if err := json.NewDecoder(res.Body).Decode(&headRes); err != nil {
-		return nil, fmt.Errorf("failed to decode response body: %w", err)
+		return nil, fmt.Errorf("decode response body: %w", err)
 	}
 
 	return &headRes, nil
@@ -465,7 +473,7 @@ func Download(
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create request: %w", err)
+		return nil, fmt.Errorf("create request: %w", err)
 	}
 
 	req.Header.Set("x-api-version", BLOB_API_VERSION)
@@ -474,7 +482,7 @@ func Download(
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("failed to send request: %w", err)
+		return nil, fmt.Errorf("send request: %w", err)
 	}
 
 	defer func() {
@@ -550,7 +558,10 @@ func Get(
 		return "", fmt.Errorf("EDGE_CONFIG_TOKEN is required")
 	}
 
-	req, err := http.NewRequest(http.MethodGet, DEFAULT_BASE_URL+"/"+id+"/item/"+key+"?token="+token, nil)
+	req, err := http.NewRequest(
+		http.MethodGet, 
+		DEFAULT_BASE_URL+"/"+id+"/item/"+key+"?token="+token, 
+		nil)
 	if err != nil {
 		return "", err
 	}
@@ -592,7 +603,10 @@ func GetAll(
 		return nil, fmt.Errorf("EDGE_CONFIG_TOKEN is required")
 	}
 
-	req, err := http.NewRequest(http.MethodGet, DEFAULT_BASE_URL+"/"+id+"/items?token="+token, nil)
+	req, err := http.NewRequest(
+		http.MethodGet, 
+		DEFAULT_BASE_URL+"/"+id+"/items?token="+token, 
+		nil)
 	if err != nil {
 		return nil, err
 	}

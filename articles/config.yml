@@ -88,7 +88,7 @@ rights: (C) 2024 ビットキー技術書部
 debug: null
 
 # 固有IDに使用するドメイン。省略した場合は時刻に基づくランダムUUIDが入る
-urnid: urn:uid:https://github.com/Shuichiro-T/Misoton-ReVIEW-Template
+urnid: urn:uid:https://github.com/bitkey-oss/bitkey-techbookfest-17
 #
 # ISBN。省略した場合はurnidが入る
 # isbn: null
