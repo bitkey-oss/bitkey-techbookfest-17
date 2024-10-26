@@ -7,7 +7,7 @@
     \vspace{1ex}
     \begin{minipage}{.1\linewidth}
         \centering
-        \includegraphics[width=.75\linewidth]{images/contributors/ULONHUBn_400x400.jpg}
+        \includegraphics[width=.75\linewidth]{images/contributors/ULONHUBn_400x400.png}
     \end{minipage}
     \begin{minipage}{.89\linewidth}
         おーたかこーたろー\\
@@ -21,7 +21,7 @@
     \vspace{1ex}
     \begin{minipage}{.1\linewidth}
         \centering
-        \includegraphics[width=.75\linewidth]{images/contributors/d9b609efea_260x260.jpg}
+        \includegraphics[width=.75\linewidth]{images/contributors/d9b609efea_260x260.png}
     \end{minipage}
     \begin{minipage}{.89\linewidth}
         古澤 優也\\
@@ -36,7 +36,7 @@
     \vspace{1ex}
     \begin{minipage}{.1\linewidth}
         \centering
-        \includegraphics[width=.75\linewidth]{images/contributors/d0bQpT2t_400x400.jpg}
+        \includegraphics[width=.75\linewidth]{images/contributors/d0bQpT2t_400x400.png}
     \end{minipage}
     \begin{minipage}{.89\linewidth}
         takuuuuuuu777\\
@@ -52,7 +52,7 @@ homehubの開発責任者としてプロダクト開発に従事。複雑な事�
     \vspace{1ex}
     \begin{minipage}{.1\linewidth}
         \centering
-        \includegraphics[width=.75\linewidth]{images/contributors/RuLU6pVi_400x400.jpg}
+        \includegraphics[width=.75\linewidth]{images/contributors/RuLU6pVi_400x400.png}
     \end{minipage}
     \begin{minipage}{.89\linewidth}
         パウリ\\
