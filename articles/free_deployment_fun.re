@@ -308,8 +308,8 @@ import (
 )
 
 const (
-	BLOB_API_VERSION = "7" 
-	DEFAULT_BASE_URL = "https://blob.vercel-storage.com"
+	BlobAPIVersion = "7"
+	DefaultBaseURL = "https://blob.vercel-storage.com"
 )
 
 func main() {
@@ -366,20 +366,21 @@ func Put(
 		return nil, fmt.Errorf("BLOB_READ_WRITE_TOKEN is required")
 	}
 
-	base, _ := url.Parse(DEFAULT_BASE_URL)
+	base, _ := url.Parse(DefaultBaseURL)
 
 	base.Path = pathname
 
 	req, err := http.NewRequestWithContext(
-		ctx, 
-		http.MethodPut, 
-		base.String(), 
-		body)
+		ctx,
+		http.MethodPut,
+		base.String(),
+		body,
+	)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create request: %w", err)
+		return nil, fmt.Errorf("create request: %w", err)
 	}
 
-	req.Header.Set("x-api-version", BLOB_API_VERSION)
+	req.Header.Set("x-api-version", BlobAPIVersion)
 
 	req.Header.Set("Authorization", "Bearer "+token)
 
@@ -428,15 +429,16 @@ func Head(
 	}
 
 	req, err := http.NewRequestWithContext(
-		ctx, 
-		http.MethodGet, 
-		DEFAULT_BASE_URL+"?"+url, 
-		nil)
+		ctx,
+		http.MethodGet,
+		DefaultBaseURL+"?"+url,
+		nil,
+	)
 	if err != nil {
 		return nil, fmt.Errorf("create request: %w", err)
 	}
 
-	req.Header.Set("x-api-version", BLOB_API_VERSION)
+	req.Header.Set("x-api-version", BlobAPIVersion)
 
 	req.Header.Set("Authorization", "Bearer "+token)
 
@@ -476,7 +478,7 @@ func Download(
 		return nil, fmt.Errorf("create request: %w", err)
 	}
 
-	req.Header.Set("x-api-version", BLOB_API_VERSION)
+	req.Header.Set("x-api-version", BlobAPIVersion)
 
 	req.Header.Set("Authorization", "Bearer "+token)
 
@@ -499,6 +501,58 @@ func Download(
 type DelRequest struct {
 	URLs []string `json:"urls"`
 }
+
+func Del(
+	ctx context.Context,
+	url string,
+) error {
+	token := os.Getenv("BLOB_READ_WRITE_TOKEN")
+	if token == "" {
+		return fmt.Errorf("BLOB_READ_WRITE_TOKEN is required")
+	}
+
+	body := DelRequest{
+		URLs: []string{url},
+	}
+
+	buf := bytes.Buffer{}
+
+	if err := json.NewEncoder(&buf).Encode(body); err != nil {
+		return fmt.Errorf("encode request body: %w", err)
+	}
+
+	req, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPost,
+		DefaultBaseURL+"/delete",
+		&buf,
+	)
+	if err != nil {
+		return fmt.Errorf("create request: %w", err)
+	}
+
+	req.Header.Set("x-api-version", BlobAPIVersion)
+
+	req.Header.Set("Authorization", "Bearer "+token)
+
+	req.Header.Set("Content-Type", "application/json")
+
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return fmt.Errorf("send request: %w", err)
+	}
+
+	defer func() {
+		if err := res.Body.Close(); err != nil {
+			println(err)
+		}
+	}()
+
+	println(res.StatusCode)
+
+	return nil
+}
+
 //}
 
 ==== Vercel Edge Config
@@ -522,9 +576,7 @@ import (
 	"os"
 )
 
-const (
-	DEFAULT_BASE_URL = "https://edge-config.vercel.com"
-)
+const DefaultBaseURL = "https://edge-config.vercel.com"
 
 func main() {
 	ctx := context.Background()
@@ -558,10 +610,12 @@ func Get(
 		return "", fmt.Errorf("EDGE_CONFIG_TOKEN is required")
 	}
 
-	req, err := http.NewRequest(
-		http.MethodGet, 
-		DEFAULT_BASE_URL+"/"+id+"/item/"+key+"?token="+token, 
-		nil)
+	req, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodGet,
+		DefaultBaseURL+"/"+id+"/item/"+key+"?token="+token,
+		nil,
+	)
 	if err != nil {
 		return "", err
 	}
@@ -603,10 +657,12 @@ func GetAll(
 		return nil, fmt.Errorf("EDGE_CONFIG_TOKEN is required")
 	}
 
-	req, err := http.NewRequest(
-		http.MethodGet, 
-		DEFAULT_BASE_URL+"/"+id+"/items?token="+token, 
-		nil)
+	req, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodGet,
+		DefaultBaseURL+"/"+id+"/items?token="+token,
+		nil,
+	)
 	if err != nil {
 		return nil, err
 	}

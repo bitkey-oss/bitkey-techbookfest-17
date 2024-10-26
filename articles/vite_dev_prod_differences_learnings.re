@@ -1,19 +1,15 @@
 
-= ViteでDevとProdの違いに沼ったことから得た学び
+= Viteのビルドモードの違いで沼ったことから得た学び
 
 //flushright{
-古澤 優也
+古澤優也
+
+zenn：enpolio（@fullyou）
 //}
-
-== まとめ
-
- * バージョン5.1未満のViteでは、CommonJSライブラリをnamespace importした際、DevとProdで挙動が異なる可能性があるという問題があった
- * Devモードだけで開発を行うのではなくProdの動作もpreviewコマンド等を使ってしっかり確認する必要がある
- * tsconfigの設定を適切に行うことも大事
 
 == はじめに
 
-以前Vite(v5.0.x)を用いてReact開発を行っている際、<b>{vite dev}で立ち上げたDevモードでは動作するが実際にビルド&デプロイしたProdモードで画面が白飛びしてしまう、という問題が発生したのでその原因を調べました。
+以前Vite(v5.0.x)を用いてReact開発を行っている際、@<b>{vite dev}で立ち上げたDevモードでは動作するが実際にビルド&デプロイしたProdモードで画面が白飛びしてしまう、という問題が発生したのでその原因を調べました。
 
 == そもそもViteとは
 
@@ -23,7 +19,7 @@ Viteはフロントエンド向けビルドツールです。2020年に登場し
 
 == 発生した問題
 
-React + Vite(5.0系)で次のようなコードを書いた際、Devモードでは問題なく動作したものの、デプロイしたものを確認したら<b>{xx is not function}というエラーが発生し画面が白飛びしてしまいました。どうやらビルド成果物を実行した際に関数でない何かしらのオブジェクトが関数呼び出しされていることが原因のようです。
+React + Vite(5.0系)で次のようなコードを書いた際、Devモードでは問題なく動作したものの、デプロイしたものを確認したら@<b>{xx is not function}というエラーが発生し画面が白飛びしてしまいました。どうやらビルド成果物を実行した際に関数でない何かしらのオブジェクトが関数呼び出しされていることが原因のようです。
 
 //list[Component][][TypeScript]{
 import * as dayjs from "dayjs";
@@ -42,10 +38,10 @@ const Component = () => {
 
 以下の点がポイントです。
 
- * dayjs（CommonJS形式）をnamespace import（<b>{import *}）している
+ * dayjs（CommonJS形式）をnamespace import（@<b>{import *}）している
  * dayjsを関数として呼び出している
 
-原因自体はシンプルで、namespace objectである<b>{dayjs}を関数呼び出ししてるのが問題です。ESModuleにおいてはnamespace importするとモジュール全体が一つのオブジェクトとしてimportされます。objectですのでもちろん関数呼び出しをすることができません。Day.jsの公式ドキュメントで（特定のtsconfigの設定がない限り）namespace importをするように記載があったのでそれに従ったのですが、誤りだったようです。
+原因自体はシンプルで、namespace objectである@<b>{dayjs}を関数呼び出ししてるのが問題です。ESModuleにおいてはnamespace importするとモジュール全体が一つのオブジェクトとしてimportされます。objectですのでもちろん関数呼び出しをすることができません。Day.jsの公式ドキュメントで（特定のtsconfigの設定がない限り）namespace importをするように記載があったのでそれに従ったのですが、誤りだったようです。
 
 === 問題の解決策
 
@@ -56,9 +52,9 @@ import dayjs from "dayjs";
 // 以下同じ
 //}
 
-default importをすることによって、<b>{module.exports}を通じてexportされたものを直接importすることができます。Dayjsの場合、<b>{dayjs}関数が直接exportされているので、default importすることによってそれをそのまま関数として利用できます。
+default importをすることによって、@<b>{module.exports}を通じてexportされたものを直接importすることができます。Dayjsの場合、@<b>{dayjs}関数が直接exportされているので、default importすることによってそれをそのまま関数として利用できます。
 
-もしくはnamespace importのままで<b>{dayjs.default("2024-01-01")}と呼び出す形でもOKです（この場合<b>{dayjs}はオブジェクトであり、<b>{default}というプロパティが<b>{dayjs}関数にあたる）。
+もしくはnamespace importのままで@<b>{dayjs.default("2024-01-01")}と呼び出す形でもOKです（この場合@<b>{dayjs}はオブジェクトであり、@<b>{default}というプロパティが@<b>{dayjs}関数にあたる）。
 
 === tsconfigの設定でそもそも防げた
 
@@ -74,9 +70,9 @@ default importをすることによって、<b>{module.exports}を通じてexpor
 }
 //}
 
-<b>{esModuleInterop}はESModuleとCommonJSの互換性を確保するためのオプションです。これを有効にするとトランスパイル時にヘルパー関数を挿入しCommonJSをESModuleに適合した形（namespace importをobjectとしてimportする）でimportすることができるようになります。この設定をすることで、namespace importしたオブジェクトを関数呼び出しすると、IDE上で型エラーをキャッチすることができます。
+@<b>{esModuleInterop}はESModuleとCommonJSの互換性を確保するためのオプションです。これを有効にするとトランスパイル時にヘルパー関数を挿入しCommonJSをESModuleに適合した形（namespace importをobjectとしてimportする）でimportすることができるようになります。この設定をすることで、namespace importしたオブジェクトを関数呼び出しすると、IDE上で型エラーをキャッチすることができます。
 
-ちなみに<b>{esModuleInterop}が<b>{true}であれば自動的に<b>{allowSyntheticDefaultImports}というオプションも自動的に有効化されます。このオプションははdefault exportが存在しないモジュールからのdefault importを許可するオプションで、CommonJSモジュールのdefault importが型チェック上可能になります。
+ちなみに@<b>{esModuleInterop}が@<b>{true}であれば自動的に@<b>{allowSyntheticDefaultImports}というオプションも自動的に有効化されます。このオプションははdefault exportが存在しないモジュールからのdefault importを許可するオプションで、CommonJSモジュールのdefault importが型チェック上可能になります。
 
 以上の通り、原因自体はシンプルでそりゃそうだなという感じなのですが、ここで問題なのは **なぜDevでは正常に動きProdではエラーとなったのか？** です。
 
@@ -118,7 +114,7 @@ importNames.forEach(({ importedName, localName }) => {
 //footnote[vitejs][packages/vite/src/node/plugins/importAnalysis.ts]
 
 
-前述の通りDayjsは<b>{dayjs}メソッドを直接exportしているため、importしたdayjs()関数を直接実行できてしまいます。
+前述の通りDayjsは@<b>{dayjs}メソッドを直接exportしているため、importしたdayjs()関数を直接実行できてしまいます。
 
 //list[dayjs][][TypeScript]{
 import __vite__cjsImport6_dayjs 
@@ -149,9 +145,9 @@ const dayjs = (
 
 Viteを使った場合、DevモードとProdモードで挙動が異なる可能性があることが分かりました。ではViteを使うのをやめるべきなのでしょうか？もちろんそんなことはなく、ここから得られる教訓は2つです。
 
- * <b>{vite dev}だけじゃなくて<b>{vite preview}もしよう
+ * @<b>{vite dev}だけじゃなくて@<b>{vite preview}もしよう
     
-    <b>{vite build}でビルドしたものを<b>{vite preview}でビルド成果物を実行することができます。実際のビルド成果物を確認することができるので本番に近いものを試すことができます。今回の問題も<b>{vite preview}しておけばローカルでも気づくことができました。Viteは（現時点の最新5.8では）Devではsbuild、ProdでRollupをビルドツールとして用いているためDevとProdの差分が生まれる可能性は大いにあります。Viteはdevサーバが爆速で立ち上がり非常に便利なので<b>{vite dev}するのみにしてしまいがちでしたので反省です…。
+    @<b>{vite build}でビルドしたものを@<b>{vite preview}でビルド成果物を実行することができます。実際のビルド成果物を確認することができるので本番に近いものを試すことができます。今回の問題も@<b>{vite preview}しておけばローカルでも気づくことができました。Viteは（現時点の最新5.8では）Devではsbuild、ProdでRollupをビルドツールとして用いているためDevとProdの差分が生まれる可能性は大いにあります。Viteはdevサーバが爆速で立ち上がり非常に便利なので@<b>{vite dev}するのみにしてしまいがちでしたので反省です…。
     
  * tsconfigを適切に設定しよう
     
@@ -162,6 +158,6 @@ Vite5.1以降では修正されているとはいえ、Viteを深く知る良い
 
 == 参照
 
+ * https://zenn.dev/bitkey_dev/articles/9fc16025f64ec9
  * https://github.com/vitejs/vite/issues/15542
- * https://qiita.com/eyuta/items/fccebb53d88798c76da5
  * https://www.typescriptlang.org/tsconfig/#esModuleInterop

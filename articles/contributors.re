@@ -11,25 +11,25 @@
     \end{minipage}
     \begin{minipage}{.89\linewidth}
         おーたかこーたろー\\
-        Cross Service Backend Team
+        Cross Service Backend チーム
     \end{minipage}
     \hspace{1ex}
 //}
-ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ
+デジタルキーを提供する基盤サービスの開発に従事してます。Go 推しです。デザイナーにおねだりしてオリジナルの Gopher くんを描いてもらったりしてます。
 
 //embed{
     \vspace{1ex}
     \begin{minipage}{.1\linewidth}
         \centering
-        \includegraphics[width=.75\linewidth]{images/contributors/ULONHUBn_400x400.jpg}
+        \includegraphics[width=.75\linewidth]{images/contributors/d9b609efea_260x260.jpg}
     \end{minipage}
     \begin{minipage}{.89\linewidth}
         古澤 優也\\
-        あああああ
+        homehub webチーム
     \end{minipage}
     \hspace{1ex}
 //}
-ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ
+紆余曲折あってIoTサービスのwebアプリケーション開発をしている元文系学生。フロントエンドもバックエンドも好き。休みの日は友人とweb開発やボードゲーム作りをしています。Apple Vision Pro欲しい。
 
 
 //embed{
@@ -40,11 +40,11 @@
     \end{minipage}
     \begin{minipage}{.89\linewidth}
         takuuuuuuu777\\
-        ああああああああああああああ
+        homehub開発部 部長
     \end{minipage}
     \hspace{1ex}
 //}
-ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ￥
+homehubの開発責任者としてプロダクト開発に従事。複雑な事象を読み解いて構造化し、抽象化/汎用化を駆使して設計・開発し、低コストで多くの価値をだすことを好んで実施。
 
 
 
@@ -60,7 +60,7 @@
     \end{minipage}
     \hspace{1ex}
 //}
-ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ
+エンジニアリングマネジメント室で組織開発、技術広報、EM支援、スクラムマスターなど、エンジニアがエンジニアリングを生きがいとなるような環境を作りたい。
 
 //embed{
     \vspace{1ex}
