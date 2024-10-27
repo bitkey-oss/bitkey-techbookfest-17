@@ -125,7 +125,7 @@ toc: true
 #
 # 表紙に配置し、書籍の影絵にも利用する画像ファイル。省略した場合はnull (画像を使わない)。画像ディレクトリ内に置いてもディレクトリ名は不要(例: cover.jpg)
 # coverimage: cover.png
-coverimage: cover.pdf
+# coverimage: cover.pdf
 #
 # 表紙の後に大扉ページを作成するか。省略した場合はnull (作成しない)
 titlepage: true
@@ -143,7 +143,7 @@ titlepage: true
 colophon: true
 
 # 裏表紙データファイル (PDFMaker向けにはLaTeXソース断片、EPUBMaker向けにはHTMLファイル)
-backcover: backcover.tex
+# backcover: backcover.tex
 
 # プロフィールページファイル  (PDFMaker向けにはLaTeXソース断片、EPUBMaker向けにはHTMLファイル)。ファイル名を指定すると著者紹介として入る
 # profile: null
