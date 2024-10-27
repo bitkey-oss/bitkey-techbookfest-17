@@ -4,3 +4,6 @@
 
 #DS_Storeファイルは除外
 .DS_Store
+
+#テンプレートPDFは除外
+!/articles/images/*.pdf
