@@ -245,7 +245,7 @@ After のプロセスでは設計やデザインなどを開始する前に、�
 
 //footnote[example][画像が見えづらいかと思うので、詳細はZennの記事ご覧ください。https://zenn.dev/bitkey_dev/articles/0633337ee7516c]
 
-//image[qrcode_zenn_dev][図が見えづらい場合はこちらからZennの記事をご覧ください][scale=0.3]{
+//image[qrcode_zenn_dev][図が見えづらい場合は、こちらの記事をご覧ください][scale=0.3]{
 
 //}
 
