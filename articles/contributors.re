@@ -75,6 +75,25 @@ homehubの開発責任者としてプロダクト開発に従事。複雑な事�
     \hspace{1ex}
 //}
 エンジニアが幸せになれることをしています。具体的には合宿運営したり、編集長やったり、スクラムマスターみたいなこともしています。
+ß
+//embed[latex]{
+\clearpage
+//}
+
+//embed{
+    \vspace{1ex}
+    \begin{minipage}{.1\linewidth}
+        \centering
+        \includegraphics[width=.75\linewidth]{images/contributors/Bjork-profile_v2.png}
+    \end{minipage}
+    \begin{minipage}{.89\linewidth}
+        X：@avocadoneko\\
+        あぼねこ (Natsuho Ide)\\
+        UI/UXチーム
+    \end{minipage}
+    \hspace{1ex}
+//}
+表紙デザインを担当。普段はUI/UXデザインを軸に様々なプロジェクトに取り組んでいます。特にiOSアプリのデザインに注力しています。イベントでの広報活動にも積極的に関わっています。アボカドと猫がすき。
 
 == サークル紹介
 ビットキー技術書部は株式会社ビットキーの有志が集まった技術同人誌サークルです。ビットキーではハードウェアの開発、ファームウェアの開発、サービスの開発を含む、
